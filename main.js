@@ -2,6 +2,8 @@
 // @name     discord QoL
 // @include  http*://assessment.netacad.net/*
 // @include  http*://127.0.0.1*
+// @match https://assessment.netacad.net/*
+// @match http*://127.0.0.1*
 // ==/UserScript==
 
 (async ()=>{
@@ -104,10 +106,12 @@
                     let dp = new DOMParser();
                     let doc = dp.parseFromString(cache, "text/html"); // parse the html
 
-                    doc.querySelectorAll("script").forEach(x => {
-                        if (x.innerHTML.includes("ez-cookie-dialog-wrapper"))
-                            x.parentNode.removeChild(x);
-                    });
+                    [
+                        "script",
+                        "#ez-cookie-dialog-wrapper",
+                        "#ezmobfooter"
+                    ].forEach(x => doc.querySelectorAll(x).forEach(y=>y.parentNode.removeChild(y)));
+
                     // remove all                     side arrows                    jump to comment section    elements
                     [...doc.getElementsByClassName("wpnp_anchor_js"), doc.getElementById("wpd-bubble-wrapper")].forEach(x => x.parentNode.removeChild(x));
 
